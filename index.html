@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Industries Ltd. — Cash Flow & Fund Flow Statements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cover: #0F3D2E;
+    --cover-dark: #0A2B20;
+    --page: #F3ECD9;
+    --page-line: #D9CCA8;
+    --ink: #29241C;
+    --ink-soft: #6B6250;
+    --gold: #A9812F;
+    --gold-bright: #C89A3E;
+    --in: #1F6E52;
+    --out: #8C3B2E;
+    --shadow: 0 18px 40px rgba(15,15,10,0.28);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(160deg,#1c2b26,#0a120f 70%);
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    padding: 32px 16px 64px;
+  }
+
+  .wrap{
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .masthead{
+    text-align:center;
+    color: #EFE7CE;
+    margin-bottom: 28px;
+  }
+  .masthead .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    font-size:11px;
+    color: var(--gold-bright);
+    margin-bottom:10px;
+  }
+  .masthead h1{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size: clamp(28px, 4.4vw, 44px);
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .masthead p{
+    font-size: 14px;
+    color: #C8C0A6;
+    margin:0;
+    max-width: 560px;
+    margin: 0 auto;
+    line-height:1.5;
+  }
+
+  .book{
+    background: var(--cover);
+    border-radius: 14px;
+    padding: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  .tabs{
+    display:flex;
+    gap:6px;
+    padding: 6px 6px 0;
+  }
+  .tab{
+    flex:1;
+    background: var(--cover-dark);
+    color: #B9C9BE;
+    border:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding: 14px 10px;
+    border-radius: 10px 10px 0 0;
+    cursor:pointer;
+    transition: all .2s ease;
+  }
+  .tab.active{
+    background: var(--page);
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .tab:not(.active):hover{
+    background:#153E30;
+    color:#EFE7CE;
+  }
+
+  .page{
+    background: var(--page);
+    border-radius: 0 0 10px 10px;
+    padding: clamp(18px, 4vw, 40px);
+    position:relative;
+  }
+  .page::before{
+    content:"";
+    position:absolute;
+    left: 46px;
+    top:0;
+    bottom:0;
+    width:1px;
+    background: var(--gold);
+    opacity:.35;
+    display:none;
+  }
+  @media(min-width:640px){ .page::before{ display:block; } }
+
+  .statement-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap: 10px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+  }
+  .statement-head h2{
+    font-family:'Fraunces', serif;
+    font-size: 24px;
+    margin:0;
+    font-weight:700;
+  }
+  .statement-head .meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align:right;
+    line-height:1.6;
+  }
+
+  .hint{
+    font-size:12.5px;
+    color: var(--ink-soft);
+    font-style:italic;
+    margin: -8px 0 20px;
+  }
+  .hint strong{ color: var(--gold); font-style:normal; }
+
+  .section-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#fff;
+    background: var(--cover);
+    display:inline-block;
+    padding: 5px 12px;
+    border-radius: 5px;
+    margin: 22px 0 10px;
+  }
+  .section-label.first{ margin-top: 4px; }
+
+  .line{
+    border-bottom: 1px dashed var(--page-line);
+  }
+  .row{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    display:flex;
+    align-items:baseline;
+    gap: 10px;
+    padding: 10px 6px;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    border-radius: 6px;
+    transition: background .15s ease;
+  }
+  .row:hover{ background: rgba(169,129,47,0.12); }
+  .row .marker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    width: 14px;
+    flex-shrink:0;
+    transition: transform .2s ease;
+  }
+  .row.open .marker{ transform: rotate(90deg); }
+  .row .label{
+    flex:1;
+  }
+  .row .label small{
+    display:block;
+    font-size:11.5px;
+    color: var(--ink-soft);
+    font-weight:400;
+    margin-top:1px;
+  }
+  .row .amount{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 14.5px;
+    font-weight:500;
+    white-space:nowrap;
+  }
+  .amount.pos{ color: var(--in); }
+  .amount.neg{ color: var(--out); }
+
+  .row.total{
+    font-weight:600;
+  }
+  .row.total .amount{ font-weight:600; }
+  .row.grand{
+    background: rgba(15,61,46,0.06);
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    font-weight:700;
+    font-size:16px;
+  }
+  .row.grand .amount{ font-size:16px; font-weight:700; }
+  .row.grand:hover{ background: rgba(15,61,46,0.12); }
+
+  .note{
+    max-height:0;
+    overflow:hidden;
+    transition: max-height .3s ease, padding .3s ease;
+    background: #EAE1C6;
+    border-left: 3px solid var(--gold);
+    margin: 0 6px;
+    border-radius: 0 6px 6px 0;
+  }
+  .note.open{
+    max-height: 400px;
+    padding: 12px 16px;
+    margin-bottom: 6px;
+  }
+  .note p{
+    margin:0 0 8px;
+    font-size: 13.5px;
+    line-height:1.6;
+    color:#3A3325;
+  }
+  .note p:last-child{ margin-bottom:0; }
+  .note .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color: var(--gold);
+    font-weight:600;
+    margin-bottom: 6px;
+    display:block;
+  }
+
+  .footnote{
+    margin-top: 26px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height:1.7;
+    border-top: 1px solid var(--page-line);
+    padding-top: 14px;
+  }
+  .footnote strong{ color: var(--ink); }
+
+  .legend{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    font-size:12px;
+    color:#C8C0A6;
+    justify-content:center;
+    margin: 18px 0 0;
+  }
+  .legend span{ display:flex; align-items:center; gap:6px; }
+  .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .dot.in{ background: var(--in); }
+  .dot.out{ background: var(--out); }
+
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="eyebrow">Illustrative Financial Statements · FY 2025–26</div>
+    <h1>Meridian Industries Ltd.</h1>
+    <p>A worked example for a large manufacturing company, in ₹ Crore. Tap any line to open a plain‑language note explaining what it means and where the number comes from.</p>
+  </div>
+
+  <div class="book">
+    <div class="tabs">
+      <button class="tab active" data-panel="cashflow">Cash Flow Statement</button>
+      <button class="tab" data-panel="fundflow">Fund Flow Statement</button>
+    </div>
+
+    <!-- ============= CASH FLOW STATEMENT ============= -->
+    <div class="page panel active" id="cashflow">
+      <div class="statement-head">
+        <h2>Statement of Cash Flows</h2>
+        <div class="meta">Year ended 31 March 2026<br>Method: Indirect · All figures ₹ Crore</div>
+      </div>
+      <div class="hint">Tracks actual cash moving in and out. <strong>Click any row</strong> to expand its explanation.</div>
+
+      <div class="section-label first">A. Operating Activities</div>
+      <div id="cf-operating"></div>
+
+      <div class="section-label">B. Investing Activities</div>
+      <div id="cf-investing"></div>
+
+      <div class="section-label">C. Financing Activities</div>
+      <div id="cf-financing"></div>
+
+      <div id="cf-summary"></div>
+
+      <div class="legend">
+        <span><i class="dot in"></i> Cash inflow</span>
+        <span><i class="dot out"></i> Cash outflow</span>
+      </div>
+
+      <div class="footnote">
+        <strong>Reading this statement:</strong> Meridian generated ₹1,150 Cr of cash from its actual operations — comfortably more than its reported profit before non‑cash adjustments would suggest at first glance. It spent more than that (₹520 Cr) expanding its asset base, and used financing activities to return cash to lenders and shareholders. The business is self‑funding its growth rather than depending on external capital.
+      </div>
+    </div>
+
+    <!-- ============= FUND FLOW STATEMENT ============= -->
+    <div class="page panel" id="fundflow">
+      <div class="statement-head">
+        <h2>Statement of Sources & Application of Funds</h2>
+        <div class="meta">Year ended 31 March 2026<br>Basis: Working Capital · All figures ₹ Crore</div>
+      </div>
+      <div class="hint">Tracks how <strong>long‑term funds</strong> were raised and used — and the net effect on working capital. <strong>Click any row.</strong></div>
+
+      <div class="section-label first">Sources of Funds</div>
+      <div id="ff-sources"></div>
+
+      <div class="section-label">Application of Funds</div>
+      <div id="ff-application"></div>
+
+      <div id="ff-summary"></div>
+
+      <div class="section-label">Schedule of Changes in Working Capital</div>
+      <div id="ff-schedule"></div>
+
+      <div class="footnote">
+        <strong>Reading this statement:</strong> Meridian raised ₹1,925 Cr in long‑term funds (mostly from operations) and applied ₹1,030 Cr of it to fixed assets, investments, debt repayment and dividends. The ₹895 Cr left over increased the company's net working capital — visible in higher inventory and receivables, partly offset by higher payables.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ---------- DATA ----------
+const cfOperating = [
+  {label:"Net Profit before Tax", amount:1250, sign:"pos", tag:"Starting point",
+   text:"This is the company's profit as reported in the Profit & Loss statement, before tax is deducted. The cash flow statement starts here and then adjusts for items that affected profit but did not involve actual cash."},
+  {label:"Add: Depreciation", amount:340, sign:"pos", tag:"Non-cash add-back",
+   text:"Depreciation reduces profit on paper (wear and tear on machinery, buildings, etc.) but no cash actually leaves the business when it's recorded. So it's added back to get closer to the real cash position."},
+  {label:"Add: Interest Expense", amount:180, sign:"pos", tag:"Reclassification",
+   text:"Interest paid on loans was already subtracted to arrive at profit, but it's actually a financing cost, not an operating one. It's added back here and shown separately under Financing Activities below."},
+  {label:"Less: Interest Income", amount:-45, sign:"neg", tag:"Reclassification",
+   text:"Interest earned on deposits/investments boosted profit, but it isn't core operating income. It's removed here and shown instead under Investing Activities."},
+  {label:"Operating Profit before Working Capital Changes", amount:1725, sign:"pos", tag:"Subtotal", total:true,
+   text:"This is the company's cash-generating power from its core business, before accounting for money tied up in day-to-day operating items like stock and customer credit."},
+  {label:"(Increase) in Inventory", amount:-210, sign:"neg", tag:"Working capital",
+   text:"The company is holding ₹210 Cr more in raw materials and finished goods than last year. That's cash converted into stock sitting in a warehouse — a cash outflow even though nothing was 'spent' on an expense."},
+  {label:"(Increase) in Trade Receivables", amount:-150, sign:"neg", tag:"Working capital",
+   text:"Customers owe the company ₹150 Cr more than they did last year. Sales were recorded as revenue, but the cash hasn't actually arrived yet — so it's deducted here."},
+  {label:"Increase in Trade Payables", amount:95, sign:"pos", tag:"Working capital",
+   text:"The company owes its own suppliers ₹95 Cr more than last year — meaning it delayed paying cash out. That's effectively an interest-free cash benefit for now, so it's added."},
+  {label:"Cash Generated from Operations", amount:1460, sign:"pos", tag:"Subtotal", total:true,
+   text:"The real cash the core business produced this year, after accounting for money tied up in inventory and customer credit, and money freed up by delaying supplier payments."},
+  {label:"Less: Income Tax Paid", amount:-310, sign:"neg", tag:"Cash tax",
+   text:"The actual cash paid to tax authorities during the year — which can differ slightly from the tax expense shown in the P&L due to timing (advance tax, refunds, etc.)."},
+  {label:"Net Cash from Operating Activities", amount:1150, sign:"pos", tag:"Section total", total:true,
+   text:"The bottom line of the operating section: how much real, spendable cash the core business generated this year, after tax. This is the number analysts watch most closely."},
+];
+
+const cfInvesting = [
+  {label:"Purchase of Property, Plant & Equipment", amount:-420, sign:"neg", tag:"Capex",
+   text:"Cash spent buying new machinery, factory expansion, or equipment. This is 'capex' — money invested in the future capacity of the business."},
+  {label:"Proceeds from Sale of Fixed Assets", amount:35, sign:"pos", tag:"Disposal",
+   text:"Cash received from selling old equipment, vehicles, or land the company no longer needs."},
+  {label:"Purchase of Investments", amount:-180, sign:"neg", tag:"Financial assets",
+   text:"Cash used to buy shares, bonds, or mutual funds as an investment — not part of the core operating business."},
+  {label:"Interest Received", amount:45, sign:"pos", tag:"Investment income",
+   text:"Cash actually received as interest on deposits and investments — moved here from the operating section since it isn't core business income."},
+  {label:"Net Cash used in Investing Activities", amount:-520, sign:"neg", tag:"Section total", total:true,
+   text:"The company spent ₹520 Cr more on long-term assets and investments than it received from selling any. A negative number here is often healthy — it usually means the company is investing in growth."},
+];
+
+const cfFinancing = [
+  {label:"Proceeds from Long-term Borrowings", amount:300, sign:"pos", tag:"New debt",
+   text:"Cash received from taking a new loan or issuing bonds — the company borrowed additional long-term capital during the year."},
+  {label:"Repayment of Borrowings", amount:-180, sign:"neg", tag:"Debt repayment",
+   text:"Cash paid out to reduce the principal amount owed on existing loans."},
+  {label:"Interest Paid", amount:-180, sign:"neg", tag:"Cost of debt",
+   text:"The actual cash cost of servicing debt during the year, shown here since it's a financing activity."},
+  {label:"Dividend Paid", amount:-250, sign:"neg", tag:"Shareholder return",
+   text:"Cash distributed to shareholders as a return on their investment. This reduces cash but reflects a healthy, profitable business rewarding owners."},
+  {label:"Net Cash from Financing Activities", amount:-310, sign:"neg", tag:"Section total", total:true,
+   text:"Overall, the company returned more cash to lenders and shareholders (₹610 Cr) than it raised in new borrowings (₹300 Cr) — a sign it didn't need external capital this year."},
+];
+
+const cfSummary = [
+  {label:"Net Increase in Cash", amount:320, sign:"pos", tag:"Grand total", grand:true,
+   text:"Adding the three sections together (Operating + Investing + Financing): 1,150 − 520 − 310 = ₹320 Cr. This is how much the company's total cash balance grew during the year."},
+  {label:"Add: Cash & Equivalents at Start of Year", amount:180, sign:"pos", tag:"Opening balance",
+   text:"The cash and bank balance the company held on 1 April 2025, carried forward from the previous year's closing balance."},
+  {label:"Cash & Equivalents at End of Year", amount:500, sign:"pos", tag:"Closing balance", grand:true,
+   text:"The actual cash and bank balance on the company's books as of 31 March 2026 — this figure should match exactly what appears on the Balance Sheet."},
+];
+
+const ffSources = [
+  {label:"Funds from Operations", amount:1590, sign:"pos", tag:"Internal source",
+   text:"Net profit (₹1,250 Cr) plus non-cash charges like depreciation (₹340 Cr) added back. This represents long-term funds the business generated internally through trading, before considering working capital movements."},
+  {label:"Issue of Long-term Debt", amount:300, sign:"pos", tag:"External source",
+   text:"New long-term borrowings raised during the year — an external source of funds used to finance growth or repay costlier debt."},
+  {label:"Sale of Fixed Assets", amount:35, sign:"pos", tag:"External source",
+   text:"Cash unlocked by disposing of long-term assets no longer needed by the business."},
+  {label:"Total Sources of Funds", amount:1925, sign:"pos", tag:"Section total", total:true,
+   text:"The full pool of long-term funds available to the company this year, from both internal operations and external financing."},
+];
+
+const ffApplication = [
+  {label:"Purchase of Fixed Assets", amount:420, sign:"neg", tag:"Capital application",
+   text:"Long-term funds used to acquire new plant, machinery, or property — building future capacity."},
+  {label:"Repayment of Long-term Loan", amount:180, sign:"neg", tag:"Capital application",
+   text:"Funds used to pay down the principal on existing long-term borrowings, strengthening the balance sheet."},
+  {label:"Dividend Paid", amount:250, sign:"neg", tag:"Capital application",
+   text:"Long-term funds distributed to shareholders rather than reinvested in the business."},
+  {label:"Purchase of Long-term Investments", amount:180, sign:"neg", tag:"Capital application",
+   text:"Funds deployed into long-term financial investments outside the core operating business."},
+  {label:"Total Application of Funds", amount:1030, sign:"neg", tag:"Section total", total:true,
+   text:"The total long-term funds consumed this year across capital spending, debt repayment, dividends, and investments."},
+];
+
+const ffSummary = [
+  {label:"Net Increase in Working Capital", amount:895, sign:"pos", tag:"Grand total", grand:true,
+   text:"Sources minus Application: 1,925 − 1,030 = ₹895 Cr. Because sources exceeded uses, the leftover long-term funds flowed into working capital — increasing the cash tied up in short-term operating items, detailed in the schedule below."},
+];
+
+const ffSchedule = [
+  {label:"Increase in Inventory", amount:210, sign:"pos", tag:"Current asset ↑",
+   text:"More capital tied up in stock than last year — an increase in a current asset increases working capital."},
+  {label:"Increase in Trade Receivables", amount:150, sign:"pos", tag:"Current asset ↑",
+   text:"More money owed by customers than last year — another increase in current assets."},
+  {label:"Increase in Cash & Bank Balances", amount:320, sign:"pos", tag:"Current asset ↑",
+   text:"The cash balance itself grew during the year (matching the Cash Flow Statement's closing figure), which is also part of net working capital."},
+  {label:"Less: Increase in Trade Payables", amount:-95, sign:"neg", tag:"Current liability ↑",
+   text:"Amounts owed to suppliers also grew — an increase in current liabilities reduces net working capital, partly offsetting the increases above."},
+  {label:"Less: Increase in Other Current Liabilities", amount:-90, sign:"neg", tag:"Current liability ↑",
+   text:"Other short-term obligations (accrued expenses, statutory dues, etc.) also rose, further offsetting the increase in current assets."},
+  {label:"Net Increase in Working Capital", amount:895, sign:"pos", tag:"Reconciles above", grand:true,
+   text:"210 + 150 + 320 − 95 − 90 = ₹895 Cr — matching the figure derived from Sources minus Application above. This schedule proves the two approaches tie out."},
+];
+
+// ---------- RENDER ----------
+function fmt(n){
+  const abs = Math.abs(n).toLocaleString('en-IN');
+  return (n<0 ? '(' : '') + '₹' + abs + (n<0 ? ')' : '');
+}
+
+function renderRows(container, items){
+  const el = document.getElementById(container);
+  items.forEach((item, idx) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'line';
+
+    const row = document.createElement('button');
+    row.className = 'row' + (item.total ? ' total' : '') + (item.grand ? ' grand' : '');
+    row.innerHTML = `
+      <span class="marker">▸</span>
+      <span class="label">${item.label}</span>
+      <span class="amount ${item.sign}">${fmt(item.amount)}</span>
+    `;
+
+    const note = document.createElement('div');
+    note.className = 'note';
+    note.innerHTML = `<span class="tag">${item.tag}</span><p>${item.text}</p>`;
+
+    row.addEventListener('click', () => {
+      row.classList.toggle('open');
+      note.classList.toggle('open');
+    });
+
+    wrap.appendChild(row);
+    el.appendChild(wrap);
+    el.appendChild(note);
+  });
+}
+
+renderRows('cf-operating', cfOperating);
+renderRows('cf-investing', cfInvesting);
+renderRows('cf-financing', cfFinancing);
+renderRows('cf-summary', cfSummary);
+
+renderRows('ff-sources', ffSources);
+renderRows('ff-application', ffApplication);
+renderRows('ff-summary', ffSummary);
+renderRows('ff-schedule', ffSchedule);
+
+// ---------- TABS ----------
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.panel).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
